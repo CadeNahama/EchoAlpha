@@ -11,3 +11,4 @@ backtrader
 requests
 tqdm
 pytest 
+tweepy

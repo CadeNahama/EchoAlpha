@@ -1,0 +1,190 @@
+# Data Formats Configuration
+# This file defines the data formats, schemas, and validation rules for EchoAlpha
+
+data_formats:
+  # Raw data formats
+  market_data:
+    format: "parquet"
+    naming_convention: "{symbol}_{date}.parquet"
+    required_columns:
+      - timestamp
+      - symbol
+      - open
+      - high
+      - low
+      - close
+      - volume
+    optional_columns:
+      - vwap
+      - source
+    validation_rules:
+      - "All prices must be positive"
+      - "Volume must be non-negative"
+      - "Timestamps must be in UTC"
+      - "No NaN values in required columns"
+
+  reddit_data:
+    format: "csv"
+    naming_convention: "reddit_{subreddit}_{date}.csv"
+    required_columns:
+      - timestamp
+      - subreddit
+      - title
+      - text
+      - score
+      - num_comments
+      - author
+      - url
+      - sentiment_score
+      - entities
+      - source
+    validation_rules:
+      - "Sentiment scores must be between -1 and 1"
+      - "Scores and comment counts must be non-negative"
+
+  twitter_data:
+    format: "csv"
+    naming_convention: "twitter_{date}.csv"
+    required_columns:
+      - timestamp
+      - tweet_id
+      - text
+      - user_id
+      - followers_count
+      - retweet_count
+      - like_count
+      - sentiment_score
+      - entities
+      - source
+    validation_rules:
+      - "Sentiment scores must be between -1 and 1"
+      - "Count fields must be non-negative"
+
+  news_data:
+    format: "csv"
+    naming_convention: "news_{source}_{date}.csv"
+    required_columns:
+      - timestamp
+      - headline
+      - text
+      - source
+      - url
+      - sentiment_score
+      - entities
+      - category
+    validation_rules:
+      - "Sentiment scores must be between -1 and 1"
+
+# Processed data formats
+processed_data:
+  feature_data:
+    format: "parquet"
+    naming_convention: "features_{symbol}_{date}.parquet"
+    required_columns:
+      - timestamp
+      - symbol
+    technical_indicators:
+      - sma_20
+      - ema_12
+      - rsi_14
+      - bb_upper
+      - bb_lower
+      - bb_position
+      - macd
+      - macd_signal
+      - volume_sma
+    sentiment_features:
+      - sentiment_score
+      - sentiment_ma_1h
+      - sentiment_ma_1d
+      - sentiment_volatility
+    microstructure_features:
+      - bid_ask_spread
+      - order_imbalance
+      - volume_profile
+    time_features:
+      - hour
+      - day_of_week
+      - is_weekend
+      - is_market_open
+
+  signal_data:
+    format: "parquet"
+    naming_convention: "signals_{symbol}_{date}.parquet"
+    required_columns:
+      - timestamp
+      - symbol
+      - technical_signal
+      - sentiment_signal
+      - microstructure_signal
+      - combined_signal
+      - momentum_score
+      - mean_reversion_score
+      - trend_score
+      - signal_strength
+      - confidence
+      - regime
+    validation_rules:
+      - "All signal scores must be between -1 and 1"
+      - "Signal strength must be between 0 and 1"
+      - "Confidence must be between 0 and 1"
+
+# Model outputs
+model_outputs:
+  trading_decisions:
+    format: "csv"
+    naming_convention: "decisions_{date}.csv"
+    required_columns:
+      - timestamp
+      - symbol
+      - action
+      - position_size
+      - entry_price
+      - stop_loss
+      - take_profit
+      - confidence
+      - reason
+      - signal_strength
+    validation_rules:
+      - "Action must be one of: BUY, SELL, HOLD"
+      - "Position size must be positive"
+      - "Prices must be positive"
+      - "Confidence must be between 0 and 1"
+
+  performance_logs:
+    format: "csv"
+    naming_convention: "performance_{date}.csv"
+    required_columns:
+      - timestamp
+      - symbol
+      - action
+      - quantity
+      - price
+      - commission
+      - slippage
+      - pnl
+      - cumulative_pnl
+      - portfolio_value
+      - drawdown
+    validation_rules:
+      - "All monetary values must be finite"
+      - "Quantities must be integers"
+
+# Data retention policies
+retention_policies:
+  raw_data: "2 years"
+  processed_data: "1 year"
+  model_outputs: "indefinitely"
+  logs: "1 year"
+
+# File naming conventions summary
+naming_conventions:
+  market_data: "{symbol}_{date}.parquet"
+  reddit_data: "reddit_{subreddit}_{date}.csv"
+  twitter_data: "twitter_{date}.csv"
+  news_data: "news_{source}_{date}.csv"
+  features: "features_{symbol}_{date}.parquet"
+  signals: "signals_{symbol}_{date}.parquet"
+  decisions: "decisions_{date}.csv"
+  performance: "performance_{date}.csv"
+  model_config: "model_config_{version}.yaml" 
