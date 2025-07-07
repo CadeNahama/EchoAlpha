@@ -7,15 +7,29 @@ __pycache__/
 altdata-venv/
 venv/
 .env/
+.venv/
 
-# Data
-/data/
+# Data (ignore all data subfolders and files)
+data/
+data/*
 
 # Config
 config/secrets.yaml
+config/secrets.yaml.template
 
 # Jupyter
 .ipynb_checkpoints/
 
 # OS
-.DS_Store 
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Data files
+*.parquet
+*.csv
+
+# Misc
+*.swp 
