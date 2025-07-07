@@ -1,0 +1,28 @@
+data_sources:
+  reddit:
+    enabled: true
+    subreddits: [wallstreetbets, stocks]
+  twitter:
+    enabled: true
+    hashtags: ["$AAPL", "$TSLA"]
+  news:
+    enabled: true
+    sources: ["Reuters", "Bloomberg"]
+
+nlp:
+  language: "en"
+  use_spacy: true
+  custom_stopwords: ["stonks", "moon"]
+
+sentiment:
+  method: "vader"
+  use_transformers: false
+
+features:
+  rolling_window: 7
+  include_time_features: true
+
+trading:
+  symbols: ["AAPL", "TSLA", "SPY"]
+  start_date: "2022-01-01"
+  end_date: "2023-01-01" 

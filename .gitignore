@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+altdata-venv/
+venv/
+.env/
+
+# Data
+/data/
+
+# Config
+config/secrets.yaml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store 

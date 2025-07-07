@@ -1,0 +1,13 @@
+pandas
+numpy
+spacy
+vaderSentiment
+praw
+pyyaml
+scikit-learn
+xgboost
+lightgbm
+backtrader
+requests
+tqdm
+pytest 
